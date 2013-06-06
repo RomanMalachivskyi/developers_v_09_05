@@ -1,0 +1,39 @@
+package com.epam.lab.developers.game.map.object.active;
+
+import com.epam.lab.developers.game.map.unit.Unit;
+
+public class CookStove extends ActiveObject {
+	
+	
+	public static final String COOK = "Cook";
+	
+	public CookStove(int x, int y, int rotationAngle, String path) {
+		super(x, y, rotationAngle, path);
+		//availableMethods.get(Unit.class).add(COOK);
+	}
+
+	@Override
+	public float use(Unit unit) {
+		// TODO Auto-generated method stub
+		
+		if (unitChecking(unit))
+			switch (unit.getTask().getTask()){
+			
+			case COOK		 :   this.cook();
+				break;
+				
+			default : return super.use(unit);
+		
+				}
+		
+		return processPercentage;
+		
+	}
+	
+	public void cook() {
+		
+		
+		
+	}
+
+}

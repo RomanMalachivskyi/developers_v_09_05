@@ -1,0 +1,108 @@
+package com.epam.lab.developers.servlet.json;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class StatusBar {
+	
+	private float mycodeLines;
+	private List<Float> opponentsCodeLines = new ArrayList<>();
+	private List<UnitStatusBar> unitStatusBars = new ArrayList<>();
+	
+	public StatusBar() {
+		
+	}
+	
+	public StatusBar(float mycodeLines, List<Float> opponentsCodeLines,
+			List<UnitStatusBar> unitStatusBars) {
+		super();
+		this.mycodeLines = mycodeLines;
+		this.opponentsCodeLines = opponentsCodeLines;
+		this.unitStatusBars = unitStatusBars;
+	}
+
+	public static class UnitStatusBar {
+		
+		private String name;
+		private String initTexture;
+		private double mood;
+		private double food;
+		private double health;
+		
+		public UnitStatusBar(String name, String initTexture, double mood,
+				double food, double health) {
+			super();
+			this.name = name;
+			this.initTexture = initTexture;
+			this.mood = mood;
+			this.food = food;
+			this.health = health;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getInitTexture() {
+			return initTexture;
+		}
+
+		public void setInitTexture(String initTexture) {
+			this.initTexture = initTexture;
+		}
+
+		public double getMood() {
+			return mood;
+		}
+
+		public void setMood(double mood) {
+			this.mood = mood;
+		}
+
+		public double getFood() {
+			return food;
+		}
+
+		public void setFood(double food) {
+			this.food = food;
+		}
+
+		public double getHealth() {
+			return health;
+		}
+
+		public void setHealth(double health) {
+			this.health = health;
+		}
+		
+	}
+
+	public float getMycodeLines() {
+		return mycodeLines;
+	}
+
+	public void setMycodeLines(float mycodeLines) {
+		this.mycodeLines = mycodeLines;
+	}
+
+	public List<Float> getOpponentsCodeLines() {
+		return opponentsCodeLines;
+	}
+
+	public void setOpponentsCodeLines(List<Float> opponentsCodeLines) {
+		this.opponentsCodeLines = opponentsCodeLines;
+	}
+
+	public List<UnitStatusBar> getUnitStatusBars() {
+		return unitStatusBars;
+	}
+
+	public void setUnitStatusBars(List<UnitStatusBar> unitStatusBars) {
+		this.unitStatusBars = unitStatusBars;
+	}
+
+}

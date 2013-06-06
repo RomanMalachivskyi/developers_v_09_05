@@ -1,0 +1,72 @@
+package com.epam.lab.developers.game.map.object.active;
+
+import com.epam.lab.developers.game.map.unit.Unit;
+
+public class CoffeeMashine extends ActiveObject {
+	
+	public static final double STANDART_CODE_MULTIPLIER = 1.03; 
+	
+
+	public CoffeeMashine(int x, int y, int rotationAngle, String path) {
+		super(x, y, rotationAngle, path);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	@Override
+	public float use(Unit unit) {
+		// TODO Auto-generated method stub
+		
+		this.activeUnit = unit;
+		switch (unit.getTask().getTask()){
+		
+		case "use"		 :   this.use();
+			break;
+	
+			}
+		
+		return percentage;
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+
+//	@Override
+//	public int action(Unit unit) {
+//		return super.action(unit);
+////		
+//		System.out.println(unit.getTask().getTarget());
+//		
+//		switch (unit.getTask().getTask()){
+//		
+//		case "use" :this.use();
+//		
+//		default : return super.action(unit);
+//		
+//			}
+		
+		
+		// TODO Auto-generated method stub
+		
+//	}
+
+	@Override
+	public void use() {
+		// TODO Auto-generated method stub
+		System.out.println("+++++++"+activeUnit.getUnitStatus().getCodeMultiplier());
+		activeUnit.getUnitStatus().setCodeMultiplier(activeUnit.getUnitStatus().getCodeMultiplier()*STANDART_CODE_MULTIPLIER);
+		
+		super.use();
+		
+		
+	}
+
+
+
+}

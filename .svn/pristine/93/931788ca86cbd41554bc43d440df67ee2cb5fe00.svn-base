@@ -1,0 +1,55 @@
+/* отримування координат на канвасі*/
+
+$(function() {
+	unitOptions = $("#unitOptions");	
+	$("#canvas").mousedown(function(e) {
+	    if (e.which === 1) {
+	    	//getOffsetRect(canvas);
+	    	var x1;
+	    	var y1;
+	    	x1 = e.pageX-dx;
+	    	y1 = e.pageY-dy;
+	    	$.ajax({
+				url: "mouse-manage",
+				data: {"s_x":x1, "s_y":y1, "message":"left"},
+				success: function(unit) {
+					unitOptions.html(unit);
+				}
+			});
+	    }
+	    if (e.which === 3) {
+	    	var x2;
+	    	var y2;
+	    	x2 = e.pageX-dx;
+	    	y2 = e.pageY-dy;
+	    	$.ajax({
+				url: "mouse-manage",
+				contentType: "application/x-www-form-urlencoded",
+				data: {"f_x":x2, "f_y":y2, "message":"right"},
+				success: function() {
+					
+				}
+			});
+	    }
+	});
+});
+	/*отримування координат розміщення канвасі на екрані*/
+	function getOffsetRect(elem) {
+
+	    var box = elem.getBoundingClientRect();
+
+	    var body = document.body;
+	    var docElem = document.documentElement;
+
+	    var scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
+	    var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
+
+	    var clientTop = docElem.clientTop || body.clientTop || 0;
+	    var clientLeft = docElem.clientLeft || body.clientLeft || 0;
+
+	    var top  = box.top +  scrollTop - clientTop;
+	    var left = box.left + scrollLeft - clientLeft;
+	    
+		dy = Math.round(top);
+		dx = Math.round(left);
+	}

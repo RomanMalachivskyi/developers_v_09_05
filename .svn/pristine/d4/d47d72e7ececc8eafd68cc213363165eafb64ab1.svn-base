@@ -1,0 +1,40 @@
+package com.epam.lab.developers.game;
+
+public class GameJson {
+
+	private String name;
+	private String creatorName;
+	private String  dateOfCreation;
+	
+	public GameJson() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public GameJson(String name, String creatorName, String dateOfCreation) {
+		super();
+		this.name = name;
+		this.creatorName = creatorName;
+		this.dateOfCreation = dateOfCreation;
+	}
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCreatorName() {
+		return creatorName;
+	}
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+	public String getDateOfCreation() {
+		return dateOfCreation;
+	}
+	public void setDateOfCreation(String dateOfCreation) {
+		this.dateOfCreation = dateOfCreation;
+	}
+	
+	
+}

@@ -1,0 +1,13 @@
+package com.epam.lab.developers.game.map.unit;
+
+import java.util.Date;
+
+public class UnitBuff {
+	
+	private Date start;
+	private long TimeToEnd;
+	private String Name;
+	
+	
+	
+}

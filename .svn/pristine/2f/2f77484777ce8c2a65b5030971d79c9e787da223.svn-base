@@ -1,0 +1,149 @@
+@CHARSET "UTF-8";
+
+#gameHeader {
+	position: absolute;
+	margin: 0 auto;
+	line-height:39px;
+    font-family: Tahoma, Arial;
+    background: url(../../img/theme/body_top_bckg.jpg) no-repeat center top #171c20;
+    color:#bed7e6;
+    font-size:11px;
+    height: 370px;
+    width: 1000px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+#listOfcountUserOnline{
+	 color:#fff;
+    text-align:center;
+    position: absolute;
+	display: none;
+	left: 0;
+	top:15px;
+	line-height:normal; 
+	 text-align:left;
+}
+
+#listOfcountUserOnline li{
+	margin-top: 5px;
+	float: left;
+	
+}
+
+#divMenuToggler {
+	width: 1000px;
+	height: 30px;
+	left: 0;
+    right: 0;
+	margin: -33px auto 0 auto;
+}
+
+#menuToggler {
+	display: none;
+	width: 1000px;
+	height: 30px;
+	margin: 0 auto;
+	background: url(../../img/theme/menu_toggle.jpg) -1px;
+}
+
+#gameContent {
+	width: 1000px;
+	margin: 30px auto 0 auto;
+}
+
+#gameMain {
+	background: url(../../img/theme/body_all_bckg_game.jpg) repeat-y top center;
+}
+
+#gameName {
+	margin-bottom: 10px;
+	text-align: center;
+    font-size: 16pt;
+    font-family: "Trebuchet MS", "Verdana";
+}
+
+#divPlayers {
+	height: 100px;
+	margin-bottom: 20px;
+    text-align: center;
+    font-family: "Trebuchet MS", "Verdana";
+}
+
+#divPlayerYou {
+	width: 100px;
+	height: inherit;
+	float: left;
+	font-size: 10pt;
+}
+
+#youPlayerImg {
+	width: 80px;
+	margin: 0 auto;
+}
+
+.divPlayerOpponents {
+	width: 100px;
+	height: inherit;
+	float: right;
+	font-size: 10pt;
+}
+
+.opponentPlayerImg {
+	width: 80px;
+}
+
+#divCanvas {
+	position: relative;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#divOnCanvas {
+	position: absolute;
+	width: 1000px;
+	height: 750px;
+	margin: -750px auto 0 auto;
+}
+
+#activeObjectMenu {border: 1px solid grey;
+	display: none;
+	position: absolute;
+	width: 100px;
+}
+
+.activeObjectMenuItem {
+	text-align: center;
+	margin: 0 auto;
+	padding: 3px;
+	width: 96px;
+	font-size:14px;
+	float: bottom;
+	color:#fff;
+	background-color:#445d6c;
+}
+
+.activeObjectMenuItem:hover {
+	background-color:#f26513;
+}
+
+#unitOptions {
+    border: 1px white solid;
+    width: 1000px;
+    height: 100px;
+	margin: 10px auto 0 auto;
+}
+
+#map_canvas{ 			/* встановлюємо ширину та висоту елементу canvas а також його межі*/
+	
+/*	width: 1000px;
+    height: 750px;*/
+}
+
+#unit_canvas{
+    margin-top: -750px auto 0 auto;
+ /*   width: 1000px;
+  height: 750px; */  
+    border: 4px white solid;
+}

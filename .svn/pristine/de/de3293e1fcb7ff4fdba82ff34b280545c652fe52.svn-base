@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+/*стиль для таблички реєстрації*/
+#tableRegister{
+	width: 200px;
+}
+#tableLogin{
+	width: 200px;
+}
+/*кнопочка зареєструвати*/
+#s_Register{
+	width: 200px;
+}
+#s_Login{
+	width: 200px;
+}
+#divFormLogin {
+    display: none;
+}
+
+#divFormRegister {
+    display: none;
+}
+
+#registerField {
+    display: none;
+    margin: 10px 0 0 100px;
+
+}
+
+#btnLogout {
+    display: none;
+    margin: 10px 0 0 100px;
+    cursor: pointer;
+}
+
+.formError {
+    color: red;
+}

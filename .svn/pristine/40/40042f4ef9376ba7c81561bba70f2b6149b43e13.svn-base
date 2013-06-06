@@ -1,0 +1,31 @@
+package com.epam.lab.developers.game.map.algorithm_way;
+
+import com.epam.lab.developers.game.map.GameMap;
+import com.epam.lab.developers.game.map.object.MapObject;
+
+public class MapWrapper {
+	
+	private int[][] mapForAlgorithm;
+	
+	public MapWrapper(GameMap gameMap) {
+		mapForAlgorithm = new int[gameMap.getRows()][gameMap.getColumns()];
+		for (int i = 0; i < gameMap.getRows(); ++i) {
+			for (int j = 0; j < gameMap.getColumns(); ++j) {
+				mapForAlgorithm[i][j] = getTypeOfObject(gameMap.getMapObjects()[i][j]);
+			}
+		}
+	}
+
+	private int getTypeOfObject(MapObject mapObject) {
+		int type = 1;
+//		if (mapObject instanceof Floor) {
+//			type = 0;
+//		}
+		return type;
+	}
+
+	public int[][] getMapForAlgorithm() {
+		return mapForAlgorithm;
+	}
+	
+}

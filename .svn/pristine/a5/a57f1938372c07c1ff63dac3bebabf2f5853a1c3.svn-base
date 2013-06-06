@@ -1,0 +1,107 @@
+var canvas;			//змінна для збереження обєкта canvasння контексту canvas
+			
+
+var WEIGTH = 50;	//ширина картинки
+var HEIGHT = 50;	//висота картинки
+
+var ln_i = 0; 		//довжина масиву mapObjects що приходить з серверу
+var ln_j = 0; 		//довжина масиву mapObjects що приходить з серверу
+var path;			//шлях до картинки на сервері
+var x;				//координата Х картинки
+var y;				//координата Н картинки
+var degree;			//кут повороту картинки
+
+var dx;
+var dy;
+ 
+
+// ініціалізація canvas
+function init_canvas(){
+	
+canvas = document.getElementById("map_canvas"); //беремо обєкт canvas
+canvas.width = 1000;
+canvas.height = 750;
+ctx = canvas.getContext("2d");				//беремо його контекст
+getOffsetRect(canvas);
+
+}
+
+
+// малювання на canvas
+function draw(path, x, y, degree){
+	
+var img1 = new Image();
+
+img1.src = path;						//вказуєм шлях до картинки, яка лежить на сервері
+img1.width = WEIGTH;
+img1.height = HEIGHT;
+
+img1.onload = function() {				//функція що виконується поки вантажиться картинка
+
+
+	rotate(degree, img1, x, y);
+	};
+}
+
+//функція для повороту картинки
+function rotate(degree, img1, x, y){
+	
+	degree = degree*1;
+	
+	x = x * 1;							//перетворюємо змінну в число
+	y = y * 1;
+	
+ctx.save();
+ctx.translate(x+WEIGTH/2,y+HEIGHT/2);		
+
+ctx.rotate(degree * Math.PI / 180);
+ctx.drawImage(img1, -(WEIGTH/2), -(HEIGHT/2));
+ctx.restore();
+
+}
+
+
+//розкладання отриманих даних mapObjects на змінні
+function parseObject(object, len){
+
+	init_canvas();								//запускаємо функцію малювання в canvas
+	
+	ln_i = object.mapObjects.length;		//визначаємо кількість обєктів, що повертає сервер
+	ln_j = object.mapObjects[0].length;		//визначаємо кількість обєктів, що повертає сервер
+	
+
+	
+	for(var i=0; i<ln_i; i++){
+		for(var j=0; j<ln_j; j++){
+			
+			if(object.mapObjects[i][j]!=null){
+			path = object.mapObjects[i][j].serverPath;
+			x = object.mapObjects[i][j].i*object.frameWidth;
+			y = object.mapObjects[i][j].j*object.frameHeight;
+			degree = object.mapObjects[i][j].rotationAngle;	//кут повроту
+			
+            
+			draw(path, x, y, degree);
+			}
+		}
+	}	
+}
+
+//функція для отримання посилань на картинки карти та координати їх розміщення
+function get_MapObject(){						
+	
+	$.ajaxSetup({
+		 contentType: "application/x-www-form-urlencoded"
+		 });
+	 
+		   $.ajax({	    
+		    url: "get_map",						//сервлет до якого надходить запит і з якого береться відповідь
+		    data: {"message":"give_me_object"},	//json який надсилається сервлету
+		    success: function(object) {			//обєкт що отримується від сервлета
+		    		 
+		    	parseObject(object);			//передаємо отриманні дані з сервера функції що їх озпарсить
+		    }
+		    
+		   });
+}
+

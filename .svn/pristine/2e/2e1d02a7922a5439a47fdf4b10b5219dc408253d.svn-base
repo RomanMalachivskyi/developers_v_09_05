@@ -1,0 +1,18 @@
+package com.epam.lab.developers.game.map.object;
+
+public class CoffeMashine extends ActiveObject {
+
+
+
+	public CoffeMashine(int x, int y, int rotationAngle, String path) {
+		super(x, y, rotationAngle, path);
+		
+	}
+
+	@Override
+	public void action() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

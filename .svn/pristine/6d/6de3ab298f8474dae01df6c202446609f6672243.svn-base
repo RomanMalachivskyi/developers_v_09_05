@@ -1,0 +1,115 @@
+package com.epam.lab.developers.servlet;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.epam.lab.developers.data.DataHolder;
+import com.epam.lab.developers.data.LoginData;
+import com.epam.lab.developers.entity.User;
+import com.epam.lab.developers.game.Game;
+import com.epam.lab.developers.game.map.GameMap;
+import com.epam.lab.developers.game.map.algorithm_way.MapWrapper;
+import com.epam.lab.developers.game.map.algorithm_way.Step;
+import com.epam.lab.developers.game.map.algorithm_way.WaveAlgorithm;
+import com.epam.lab.developers.game.map.unit.Unit;
+import com.google.gson.Gson;
+
+/**
+ * Servlet implementation class CoordinateStep
+ */
+@WebServlet("/mouse-manage")
+public class MouseManage extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public MouseManage() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//System.out.println(request.getParameter("f_x")+" "+request.getParameter("f_y")); 
+		 int finishXCoord, StartXCoord;
+		 int finishYCoord, StartYCoord;
+		 int finishX;
+		 int finishY;
+		 int startY = 0;
+		 int startX = 0;
+//		 int [][]map= {	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//						{1,2,2,0,0,2,1,0,3,3,1,0,0,0,0,1,3,0,0,1},
+//						{1,0,0,0,0,4,1,0,0,0,1,0,0,0,0,1,0,0,0,1},
+//						{1,2,0,0,0,0,1,0,0,0,1,0,0,0,0,1,3,0,0,1},
+//						{1,2,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1},
+//						{1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1},
+//						{1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//						{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1},
+//						{1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1},
+//						{1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1},
+//						{1,3,0,0,0,0,1,1,0,1,1,1,1,1,0,0,0,0,2,1},
+//						{1,0,0,0,0,0,1,3,0,0,0,0,0,1,0,0,0,0,2,1},
+//						{1,0,0,0,0,0,1,3,0,0,0,0,0,1,2,0,0,0,0,1},
+//						{1,0,3,0,3,0,1,0,0,3,0,3,0,1,2,0,0,2,2,1},
+//						{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//					};
+		 String message = request.getParameter("message");
+		 if (null != message) {
+			 User user = LoginData.userLogined(request);
+			 if (null!=user){
+				 Game game =  DataHolder.getInstance().getGame(user);
+				 if(null!=game){
+					 GameMap gameMap = game.getMap();
+					 int[][] mapBinary = game.getMapBinary();
+					 if(message.contentEquals("right")){
+						 finishXCoord  = Integer.parseInt(request.getParameter("f_x"));
+						 finishYCoord  = Integer.parseInt(request.getParameter("f_y"));
+						 finishX = finishXCoord/gameMap.getFrameWidth();
+						 finishY = finishYCoord/gameMap.getFrameHeight();
+						 
+						 WaveAlgorithm algorithm = new WaveAlgorithm(mapBinary, startY, startX, finishY, finishX);
+						 String str =  algorithm.Algorithm();
+						 System.out.println(str+"  "+finishX+"  "+finishY);
+						 if(str.equals("good")){
+							 List<Step> way = algorithm.getWay();
+							 System.out.println(way);
+						 }
+					 }
+					 if(message.contentEquals("left")){
+						int p=0;
+						String whichObject = null;
+						StartXCoord  = Integer.parseInt(request.getParameter("s_x"));
+						StartYCoord  = Integer.parseInt(request.getParameter("s_y"));
+						StartXCoord = StartXCoord/gameMap.getFrameWidth();
+						StartYCoord = StartYCoord/gameMap.getFrameHeight();
+						checkUnit(StartXCoord, StartYCoord, game, gameMap.getFrameWidth(), gameMap.getFrameHeight());
+//						p=mapBinary[StartYCoord][StartXCoord];
+//						if(p==0)whichObject="floor";
+//						if(p==1)whichObject="wall";
+//						if(p==2)whichObject="table";
+//						if(p==3)whichObject="active object";
+//						System.out.println(StartYCoord+" "+StartXCoord);
+//						response.getWriter().println(new Gson().toJson(whichObject));
+					 }
+				 }
+			 }
+		 }
+	}
+
+	private void checkUnit(int i, int j, Game game, int frameWidth, int frameHeight) {
+		for (User user : game.getPlayers()) {
+			for (Unit unit : user.getTeam().getUnits()) {
+				if ((unit.getX() / (double) frameWidth < i) && (unit.getX() / frameWidth > i + 1)) {
+					
+				}
+			}
+		}
+	}
+
+}

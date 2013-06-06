@@ -1,0 +1,29 @@
+package com.epam.lab.developers.game.map.object.active;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.epam.lab.developers.game.Active;
+import com.epam.lab.developers.game.map.object.MapObject;
+
+public abstract class ActiveObject extends MapObject implements	Active {
+	
+	protected List<String> availableMethods=new ArrayList<>();
+
+	
+	
+
+	public ActiveObject(int x, int y, int rotationAngle, String path) {
+		super(x, y, rotationAngle, path);
+		// TODO Auto-generated constructor stub	
+	
+	
+		availableMethods.add("use");
+		availableMethods.add("repair");
+		availableMethods.add("breakDown");
+		
+	}
+
+
+
+}

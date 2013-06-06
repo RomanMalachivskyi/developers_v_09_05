@@ -1,0 +1,56 @@
+$(function() {
+
+
+
+var unitCanvas = $("#unit_canvas");
+var ctx = unitCanvas.getContext("2d");
+var HEIGHT =50;
+var WEIGTH = 50;
+
+var draw = function(path,i,j, angle){
+    var img = new Image();
+    img.src = path;
+    img.load(function(){
+       rotate(angle, img1, x, y); 
+    });
+    
+};
+
+var rotate = function(angle, img, x, y){
+    angle = angle*1;
+    
+    x = x * 1;                        
+    y = y * 1;
+    
+    ctx.save();
+    ctx.translate(x+WEIGTH/2,y+HEIGHT/2);       
+    
+    ctx.rotate(degree * Math.PI / 180);
+    ctx.drawImage(img1, -(WEIGTH/2), -(HEIGHT/2));
+    ctx.restore();  
+};
+
+
+var getUnits = function(){
+    
+    $.ajax({
+            url : "get_unit",
+            contentType : "application/x-www-form-urlencoded",
+            data : {
+                "message" : "give_me units"
+            },
+            success : function(object) {
+               for(var i =0; i<object.length; i++)
+                for(var j=0;j<objet[0].lenght; j++){
+                    
+                }
+            },
+            error : function(error) {
+                alert(error.responseText);
+            }
+        });
+};
+
+getUnits();
+
+});

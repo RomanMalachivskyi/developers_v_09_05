@@ -1,0 +1,135 @@
+package com.epam.lab.developers.game.map.unit;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.epam.lab.developers.game.Active;
+import com.epam.lab.developers.game.map.algorithm_way.WaveAlgorithm;
+
+public abstract class Unit implements Active {
+	
+	protected int x;
+	protected int y;
+	protected int rotationAngle;
+	protected List<String> textures = new ArrayList<>();
+	protected String name;
+	protected UnitTask task =new UnitTask("code");
+	protected boolean selected = false;
+	protected float codeMultiplier=1;
+	protected List<String> availableMethods=new ArrayList<>();
+	
+	
+
+
+	public Unit() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	public Unit(int x, int y, int rotationAngle,
+			  List<String> textures, String name) {
+		this.x = x;
+		this.y = y;
+		this.rotationAngle = rotationAngle;
+		this.textures = textures;
+		availableMethods.add("move");
+		availableMethods.add("code");
+		availableMethods.add("use");
+		availableMethods.add("repair");
+		availableMethods.add("breakDown");
+			
+	}
+
+	
+	@Override
+	public void action() {
+		
+	if(task.getTargetX()/50+1==x/50&&task.getTargetX()/50-1==x/50||
+	   task.getTargetY()/50+1==x/50&&task.getTargetY()/50-1==x/50) this.move(x, y);
+		
+		
+		switch (task.getTask()){
+		case "move"   	 :   this.move(1, 2);
+			break;	
+		case "code"		 :   this.code();
+			break;
+		case "use" 		 :   this.use();
+			break;
+		case "repair"	 :   this.repair();
+			break;
+		case "breakDown" :   this.breakDown();
+			break;
+		
+		default : System.err.println("unknown method");
+			}
+		 
+	}
+
+
+
+	private void breakDown() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void repair() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void use() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void code() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+	public List<String> getAvailableMethods() {
+		return availableMethods;
+	}
+
+	public void move(int x, int y) {
+		System.out.println("move");
+	}
+
+	protected List<String> getTextures() {
+		return textures;
+	}
+
+	protected int getX() {
+		return x;
+	}
+
+	protected void setX(int x) {
+		this.x = x;
+	}
+	protected int getY() {
+		return y;
+	}
+
+	protected void setY(int y) {
+		this.y = y;
+	}
+
+	protected int getRotationAngle() {
+		return rotationAngle;
+	}
+
+	protected void setRotationAngle(int rotationAngle) {
+		this.rotationAngle = rotationAngle;
+	}
+
+
+}

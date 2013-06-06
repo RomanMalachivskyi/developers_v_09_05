@@ -1,0 +1,21 @@
+package com.epam.lab.developers.game.map.unit;
+
+import java.util.List;
+
+public class JuniorDeveloper extends Unit {
+
+public static final int CODE_LINES_PER_TIME_SPAN = 10; // to correct
+	
+	
+public JuniorDeveloper(int x, int y, int rotationAngle, List<String> textures) {
+	super(x, y, rotationAngle, textures);
+	
+}
+@Override
+public void action() {
+	// TODO Auto-generated method stub
+	
+}
+
+
+}

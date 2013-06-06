@@ -1,0 +1,33 @@
+$(function() {
+	
+	var divPlayers = $("#divPlayers");
+	var divPlayerYou = $("#divPlayerYou");
+	var youPlayerImg = $("#youPlayerImg");
+	
+	var listOfPlayers = function() {
+		$.ajax({
+			url:"get-game-data",
+			contentType: "application/x-www-form-urlencoded",
+			data: {"message" : "get_players"},
+			success: function(youAndOpponents){
+				var you = youAndOpponents[0];
+				var opponents = youAndOpponents[1];
+				youPlayerImg.attr("src",  "resources/img/user/" + you.info.photo);
+				divPlayerYou.append(you.name);
+				for (var i = 0; i < opponents.length; ++i) {
+					divPlayers.append("<div class=\"divPlayerOpponents\">" +
+							"<img class=\"opponentPlayerImg\" src=\"resources/img/user/"+
+							opponents[i].info.photo + "\"/>" +
+							opponents[i].name +
+							"</div>");
+				}
+			},
+			error: function(error) {
+				alert(error.responseText);
+			}
+		});
+	};
+	
+	listOfPlayers();
+	
+});

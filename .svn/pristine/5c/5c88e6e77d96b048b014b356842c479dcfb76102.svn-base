@@ -1,0 +1,33 @@
+$(function() {
+	
+	var gameStatusBar = $("#gameStatusBar");
+	var divAllUnitsStatusBar = $("#divAllUnitsStatusBar");
+	var divMaxCodeLines = $("#divMaxCodeLines");
+	var maxCodeLinesWidth = divMaxCodeLines.width();
+
+	var getStatusBar = function() {
+		$.ajax({
+			url : "get-status-bar",
+			success : function(maxCodeLinesAndStatusBar) {
+				var maxCodeLines = maxCodeLinesAndStatusBar[0];
+				var statusBar = maxCodeLinesAndStatusBar[1];
+				var xWidth = maxCodeLinesWidth * statusBar.mycodeLines / maxCodeLines + 1;
+				gameStatusBar.css({width : xWidth + "px"});
+				var allUnitStatusBars = statusBar.unitStatusBars;
+				divAllUnitsStatusBar.html("");
+				for (var i = 0; i < allUnitStatusBars.length; ++i) {
+					var unitStatusBar = allUnitStatusBars[i];
+					divAllUnitsStatusBar.append("<div class=\"divUnitStatusBar\"><center>" +
+							"<img src=\"" + unitStatusBar.initTexture + "\" width=\"25px\"><br>" +
+							"<span style=\"font-size: 7pt;\">" + unitStatusBar.name + "</span></center>" +
+							"M: " + unitStatusBar.mood + "<br>" +
+							"F: " + unitStatusBar.food + "<br>" +
+							"H: " + unitStatusBar.health + "<br></div>");
+				}
+			}
+		});
+	};
+	
+	setInterval(getStatusBar, 60);
+	
+});

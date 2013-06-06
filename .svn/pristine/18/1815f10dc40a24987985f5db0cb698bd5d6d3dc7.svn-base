@@ -1,0 +1,10 @@
+package com.epam.lab.developers.game.map.unit;
+
+public class UnitStatus {
+
+	public float codeMultiplier=1;//множник для швидкості написання коду, напряму залежить від настрою
+	public float mood;//настрій юніта, якщо ситість і здоровя нормальні
+	public float bellyful; // ситість юніта, залежить від кількості випитої кави і зїдженої їжі
+	public float healt; //здоров'я, змінюється коли бються
+
+}

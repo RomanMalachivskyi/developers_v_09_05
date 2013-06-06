@@ -1,0 +1,22 @@
+package com.epam.lab.developers.game.map.unit;
+
+import java.util.List;
+
+public class MiddleDeveloper extends Unit {
+
+	
+	public static final int CODE_LINES_PER_TIME_SPAN = 10; // to correct
+
+	public MiddleDeveloper(int x, int y, int rotationAngle,
+			List<String> textures) {
+		super(x, y, rotationAngle, textures,"middle");
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public void action() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

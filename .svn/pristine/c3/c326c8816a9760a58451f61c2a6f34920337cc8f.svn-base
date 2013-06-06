@@ -1,0 +1,15 @@
+package com.epam.lab.developers.game.map.object.active;
+
+import com.epam.lab.developers.game.Active;
+import com.epam.lab.developers.game.map.object.MapObject;
+
+public abstract class ActiveObject extends MapObject implements	Active {
+
+	public ActiveObject(int x, int y, int rotationAngle, String path) {
+		super(x, y, rotationAngle, path);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+}

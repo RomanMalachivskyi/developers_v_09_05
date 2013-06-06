@@ -1,0 +1,76 @@
+$(function() {
+
+
+
+var unitCanvas = document.getElementById("unit_canvas");
+
+var ctx = unitCanvas.getContext("2d");   
+var HEIGHT =50;
+var WEIGTH = 50;
+
+
+var initCanvas = function(){
+   unitCanvas.height = 750;
+   unitCanvas.width = 1000;
+};
+
+var draw = function(path,x,y, angle){
+    var img = new Image();
+    img.src = path;
+    
+    $(img).load(function(){
+       rotate(angle, img, x, y); 
+    });
+    
+};
+
+var rotate = function(angle, img, x, y){
+    angle = angle*1;
+    
+    x = x * 1;                        
+    y = y * 1;
+    
+    ctx.save();
+    ctx.translate(x+WEIGTH/2,y+HEIGHT/2);       
+    
+    ctx.rotate(angle * Math.PI / 180);
+    ctx.drawImage(img, -(WEIGTH/2), -(HEIGHT/2));
+    ctx.restore();  
+};
+
+
+var getUnits = function(){
+    
+    initCanvas();
+    $.ajax({
+            url : "get_unit",
+            contentType : "application/x-www-form-urlencoded",
+            data : {
+                "message" : "give_me units"
+            },
+            success : function(teams) {
+               for(var z =0; z<teams.length; z++){
+               var team = teams[z];
+               var units = team.units;
+                    for(var i=0;i<units.length;i++){
+                    	//// TODO
+                        var x = units[i].x - 25;
+                        var y = units[i].y - 25;
+                        ////
+                        var angle = units[i].rotationAngle;
+                        var texture = units[i].textures[0];
+                        draw(texture,x,y,angle);
+                    }
+               }
+              
+            },
+            error : function(error) {
+                alert(error.responseText);
+            }
+        });
+};
+
+
+getUnits();
+
+});

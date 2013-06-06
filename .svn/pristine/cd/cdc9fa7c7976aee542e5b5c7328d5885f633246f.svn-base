@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=windows-1251"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+
+	<%@include file="/WEB-INF/view/part/links.jsp" %>
+    
+    <title>Developers - About</title>
+   
+</head>
+
+<body>
+	
+<table id="main_table" align="center">
+  <tr>
+    <th scope="col">
+    	<%@include file="/WEB-INF/view/part/menu.jsp" %>
+    </th>
+  </tr>
+  <tr>
+    <td id="body_table">
+    <div id="body_div">
+    	<h1>About Game</h1>
+		<h2></h2>
+    </div>
+				
+    </td>
+  </tr>
+  <tr>
+    <td id="footer_table">
+    	<%@include file="/WEB-INF/view/part/footer.jsp" %>
+    </td>
+  </tr>
+    <tr>
+    <td id="bottom_interval_table">
+ 
+    </td>
+  </tr>
+</table>
+
+
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+package com.epam.lab.developers.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.epam.lab.developers.game.map.object.CoffeMashine;
+import com.epam.lab.developers.game.map.object.GameMap;
+import com.epam.lab.developers.game.map.object.MapObject;
+import com.epam.lab.developers.game.map.object.PassiveObject;
+
+public class MapDAO extends DAOJdbc<GameMap> {
+
+	private String getMapObjectsById = "SELECT map_object.rotation_angle, map_object.x, map_object.y, object.path, object.active, object.name "
+			+ "FROM map_object INNER JOIN object ON map_object.id_map = ? "
+			+ "AND map_object.id_object = object.id ORDER BY map_object.x, map_object.y";
+
+	private String getMapParametersById = "SELECT * FROM map WHERE id = ?";
+	private String getMapIdByName = "SELECT id FROM map WHERE name = ?";
+	
+	@Override
+	public GameMap getById(int id) {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		try {
+			stat = conn.prepareStatement(getMapObjectsById);
+			stat.setInt(1, id);
+			rs = stat.executeQuery();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return fillMap(rs, id);
+	}
+
+	@Override
+	public GameMap getByName(String name) {
+		
+		int id = getMapID(name);
+		
+		return getById(id);
+	}
+
+	@Override
+	public int insert(GameMap entity) {
+		return 0;
+	}
+
+	private GameMap fillMap(ResultSet objs, int mapId) {
+		
+		GameMap map = null;
+		try{
+			
+			map = getEmptyMap(mapId);
+			
+			objs.next();
+			for(int i =0; i<map.getWidthInFrames();i++){
+				for(int j =0; j<map.getHeightInFrames();j++, objs.next())
+					map.setMapObject(createMapObject(objs), i, j);
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return map;
+
+	}
+
+	private GameMap getEmptyMap(int id) {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		GameMap map = null;
+		try {
+			stat = conn.prepareStatement(getMapParametersById);
+			stat.setInt(1, id);
+			rs = stat.executeQuery();
+			rs.next();
+			map = new GameMap(rs.getInt("frame_width"),
+					rs.getInt("frame_height"), rs.getInt("width"),
+					rs.getInt("height"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return map;
+	}
+	
+	private MapObject createMapObject(ResultSet objs){
+		MapObject object = null;
+		
+		try{
+			
+			// not ready must add texture objects
+			switch(objs.getString("name")){
+
+			case "cofee_mashine_desk_red":
+				object = new CoffeMashine(objs.getInt("x"), objs.getInt("y"),objs.getInt("rotation_angle"), objs.getString("path"));
+				break;
+			case "coffe_mashine_desk_grey":
+				object = new CoffeMashine(objs.getInt("x"), objs.getInt("y"), objs.getInt("rotation_angle"), objs.getString("path"));
+				break;
+			default:
+				object = new PassiveObject(objs.getInt("x"), objs.getInt("y"), objs.getInt("rotation_angle"), objs.getString("path"));
+			}
+			
+		}
+		catch(SQLException e){
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		return object;
+	}
+
+	private int getMapID(String name){
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		int id = 1;
+		try {
+			stat = conn.prepareStatement(getMapIdByName);
+			stat.setString(1, name);
+			rs = stat.executeQuery();
+			rs.next();
+			id =rs.getInt("id");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
+
+	@Override
+	public int update(GameMap entity) {
+		return 0;
+	}
+	
+}

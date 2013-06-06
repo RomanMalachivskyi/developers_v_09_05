@@ -1,0 +1,196 @@
+$(function() {
+
+	var unitCanvas = document.getElementById("unit_canvas");
+
+	var ctx = unitCanvas.getContext("2d");
+	var HEIGHT = 50;
+	var WEIGTH = 50;
+
+	var mapUnits = new Array();
+	// попередньо виділений юніт
+	var prevSelectedUnit = {
+		"id" : -1,
+		"x" : -1,
+		"y" : -1
+	};
+	var urlSelectedUnit = "resources/img/texture/unit/selected_unit.png";
+
+	var initCanvas = function() {
+		unitCanvas.height = 750;
+		unitCanvas.width = 1000;
+	};
+
+	var draw = function(path, x, y, angle) {
+		var img = new Image();
+		img.src = path;
+
+		$(img).load(function() {
+			rotate(angle, img, x, y);
+
+		});
+
+	};
+
+	var drawUnitList = function() {
+		// alert("here");
+		for ( var i = 0; i < mapUnits.length; i++) {
+			draw(mapUnits[i].textures[mapUnits[i].currentTextureId],
+					mapUnits[i].x, mapUnits[i].y, mapUnits[i].angle);
+
+		}
+	};
+
+	var rotate = function(angle, img, x, y) {
+		angle = angle * 1;
+
+		x = x * 1;
+		y = y * 1;
+
+		ctx.save();
+		ctx.translate(x + WEIGTH / 2, y + HEIGHT / 2);
+
+		ctx.rotate(angle * Math.PI / 180);
+		ctx.drawImage(img, -(WEIGTH / 2), -(HEIGHT / 2));
+		ctx.restore();
+	};
+
+	var getUnits = function() {
+
+		initCanvas();
+		$
+				.ajax({
+					url : "get_unit",
+					contentType : "application/x-www-form-urlencoded",
+					data : {
+						"message" : "give_me_units"
+					},
+					success : function(teams) {
+
+						for ( var z = 0; z < teams.length; z++) {
+
+							var team = teams[z];
+							var units = team.units;
+							for ( var i = 0; i < units.length; i++) {
+								var unit = {};
+								unit = {
+									"id" : units[i].id,
+									"x" : units[i].x,
+									"y" : units[i].y,
+									"angle" : units[i].rotationAngle,
+									"currentTextureId" : units[i].currentTextureId,
+									"textures" : [ units[i].textures[0],
+											units[i].textures[1],
+											units[i].textures[2],
+											units[i].textures[3],
+											units[i].textures[4] ]
+								};
+								mapUnits.push(unit);
+
+							}
+
+						}
+						drawUnitList();
+
+					},
+					error : function(error) {
+						alert(error.responseText);
+					}
+				});
+
+	};
+
+	var setPrevSelectedUnit = function(unit) {
+		prevSelectedUnit.id = unit.id;
+		prevSelectedUnit.x = unit.x;
+		prevSelectedUnit.y = unit.y;
+	};
+
+	var drawSelectedUnit = function(unit) {
+		draw(urlSelectedUnit, unit.x, unit.y, 0);
+	};
+
+	var redrawUnit = function(unit) {
+		ctx.clearRect(unit.x, unit.y, WEIGTH, HEIGHT);
+		draw(unit.textures[unit.currentTextureId], unit.x, unit.y, unit.angle);
+	};
+
+	var getMovingUnits = function() {
+		$
+				.ajax({
+					url : "get_moving_unit",
+					contentType : "application/x-www-form-urlencoded",
+					data : {
+						"message" : "give_me_moving_units"
+					},
+					success : function(unitsAndSelectedUnit) {
+						if (unitsAndSelectedUnit != null) {
+							var units = unitsAndSelectedUnit[0];
+							var selectedUnit = unitsAndSelectedUnit[1];
+							for ( var i = 0; i < units.length; i++) {
+								for ( var j = 0; j < mapUnits.length; j++) {
+									if (units[i].id == mapUnits[j].id
+											&& (units[i].x != mapUnits[j].x || units[i].y != mapUnits[j].y)) {
+										ctx.clearRect(mapUnits[j].x,
+												mapUnits[j].y, WEIGTH, HEIGHT);
+
+										for ( var z = 0; z < mapUnits.length; z++)
+											if (mapUnits[z].id != mapUnits[j].id
+													& mapUnits[z].x == mapUnits[j].x
+													& mapUnits[z].y == mapUnits[j].y)
+												draw(
+														mapUnits[z].textures[mapUnits[z].currentTextureId],
+														mapUnits[z].x,
+														mapUnits[z].y,
+														mapUnits[z].angle);
+
+										mapUnits[j].x = units[i].x;
+										mapUnits[j].y = units[i].y;
+										mapUnits[j].angle = units[i].rotationAngle;
+										mapUnits[j].currentTextureId = units[i].currentTextureId;
+										draw(
+												mapUnits[j].textures[mapUnits[j].currentTextureId],
+												mapUnits[j].x, mapUnits[j].y,
+												mapUnits[j].angle);
+										if (null != selectedUnit) {
+											if (selectedUnit.id == mapUnits[j].id) {
+												setPrevSelectedUnit(mapUnits[j]);
+												drawSelectedUnit(mapUnits[j]);
+											}
+										}
+									}
+								}
+							}
+							if (null != selectedUnit) {
+								// якщо виділено іншого юніта
+								if (prevSelectedUnit.id != selectedUnit.id) {
+									for ( var j = 0; j < mapUnits.length; ++j) {
+										if (prevSelectedUnit.id == mapUnits[j].id) {
+											redrawUnit(mapUnits[j]);
+											break;
+										}
+									}
+									setPrevSelectedUnit(selectedUnit);
+									drawSelectedUnit(selectedUnit);
+								}
+								// якщо знято виділення з юніта
+							} else {
+								for ( var j = 0; j < mapUnits.length; ++j) {
+									if (prevSelectedUnit.id == mapUnits[j].id) {
+										redrawUnit(mapUnits[j]);
+										break;
+									}
+								}
+								prevSelectedUnit.id = -1;
+							}
+						}
+
+					},
+					error : function(error) {
+
+					}
+				});
+	};
+
+	getUnits();
+	setInterval(getMovingUnits, 60);
+});

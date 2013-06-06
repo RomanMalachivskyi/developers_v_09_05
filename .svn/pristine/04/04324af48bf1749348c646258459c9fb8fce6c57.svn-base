@@ -1,0 +1,50 @@
+$(function() {
+	
+	var body_div = $("#body_div");
+	
+	var userPhotoImg = $("#userPhotoImg");
+	
+	var userName = $("#userName");
+	var userEmail = $("#userEmail");
+	var userScore = $("#userScore");
+	var userWinnings = $("#userWinnings");
+	var userLosings = $("#userLosings");
+	
+	var divFormUpload = $("#divFormUpload");
+	var formUpload = $("#formUpload");
+	
+	// завантажує дані користувача, який ввійшов на сайт (фото, ім'я, статистику, і т.д.)
+	var loadProfile = function() {
+		$.ajax({
+			url: "check-login",
+			success: function(user) {
+				userName.html(user.name);
+				userEmail.html(user.info.email);
+				userScore.html(user.stats.score);
+				userWinnings.html(user.stats.winnings);
+				userLosings.html(user.stats.losings);
+				userPhotoImg.attr("src",  "resources/img/user/" + user.info.photo);
+			}
+		});
+	};
+	
+	divFormUpload.click(function(e) {
+		e.stopPropagation();
+	});
+	
+	userPhotoImg.click(function(e) {
+		e.stopPropagation();
+		divFormUpload.show("fast");
+	});
+	
+	$(document).click(function() {
+		divFormUpload.hide("fast");
+	});
+	
+	var init = function() {
+		loadProfile();
+	};
+	
+	init();
+	
+});

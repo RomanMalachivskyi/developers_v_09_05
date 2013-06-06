@@ -1,0 +1,46 @@
+$(function() {
+	
+
+	var s_Send = $("#s_Send");				//кнопочка Send/ Вик. для відсилання повідомлення на сервлет
+	var output_chat = $("#output_chat");	//textarea для вводу повідомлення в чаті
+
+	
+	s_Send.click(function() {				//відсилаємо повідомлення при кліку на кнопці Send
+		
+		var input_chat = $("#input_chat");	//зчитуємо текст з поля вводу	
+
+		$.ajax({
+			url: "chat",					//передаємо на сервлет, який має адресу "developers/chat"
+			contentType: "application/x-www-form-urlencoded",
+			data: {"what":"write","message":input_chat.val()},
+
+		});
+		return false;						//щоб не перезавантажувалась сторінка
+	});
+	
+	
+	var getChat = function() {				//функція для отримання тексту всього чату
+		$.ajax({
+			url: "chat",					//звертаємось до сервлет, який має адресу "developers/chat"
+			contentType: "application/x-www-form-urlencoded",
+			data: {"what":"read","message":"get_me_chat_pls"},
+			success: function(chat) {		//отримуємо відповідь
+			
+				var len = chat.length;		//визначаємо довжину масиву
+				var text="";				//очищаємо вікно чату
+				
+				for(var i=0; i<len; i++){	//створюємо стрічку нових повідомлень
+					text+=chat[i].user+": "+chat[i].message+"\n";
+				}
+				output_chat.val(text);		//записуємо стрічку нових повідомлень в textarea
+						}
+		});
+	}
+	
+	function init_chat(){
+		setInterval(getChat,2000);			//запускаєм опитування чату на сервері кожні 2 секунди
+	}
+	
+	init_chat();
+	
+});

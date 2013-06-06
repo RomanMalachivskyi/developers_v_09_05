@@ -1,0 +1,65 @@
+package com.epam.lab.developers.game.map.unit;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.epam.lab.developers.game.Active;
+
+public abstract class Unit implements Active {
+	
+	protected int x;
+	protected int y;
+	protected int rotationAngle;
+	protected List<String> textures = new ArrayList<>();
+	protected String name;
+	protected UnitTask task =new UnitTask("code");
+	
+	public Unit() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	public Unit(int x, int y, int rotationAngle,
+			List<String> textures) {
+		this.x = x;
+		this.y = y;
+		this.rotationAngle = rotationAngle;
+		this.textures = textures;
+	}
+
+	
+	public void move(int x, int y) {
+		
+	}
+
+	public List<String> getTextures() {
+		return textures;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getRotationAngle() {
+		return rotationAngle;
+	}
+
+	public void setRotationAngle(int rotationAngle) {
+		this.rotationAngle = rotationAngle;
+	}
+
+
+}

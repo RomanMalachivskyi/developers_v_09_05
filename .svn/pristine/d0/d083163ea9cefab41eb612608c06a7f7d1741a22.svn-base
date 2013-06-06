@@ -1,0 +1,79 @@
+package com.epam.lab.developers.servlet;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.epam.lab.developers.data.DataHolder;
+import com.epam.lab.developers.data.LoginData;
+import com.epam.lab.developers.entity.User;
+import com.epam.lab.developers.game.Game;
+import com.epam.lab.developers.game.map.GameMap;
+import com.epam.lab.developers.game.map.algorithm_way.Step;
+import com.epam.lab.developers.game.map.algorithm_way.WaveAlgorithm;
+import com.epam.lab.developers.game.map.unit.Unit;
+
+/**
+ * Servlet implementation class CoordinateStep
+ */
+@WebServlet("/coordinate-step")
+public class MouseManage extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public MouseManage() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//System.out.println(request.getParameter("f_x")+" "+request.getParameter("f_y")); 
+		 int finishXCoord  = Integer.parseInt(request.getParameter("f_x"));
+		 int finishYCoord  = Integer.parseInt(request.getParameter("f_y"));
+		 int finishX;
+		 int finishY;
+		 int startY = 1;
+		 int startX = 2;
+		 int [][]map= {	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+						{1,1,1,0,0,2,1,0,3,3,1,0,0,0,0,1,3,0,0,1},
+						{1,0,0,0,0,4,1,0,0,0,1,0,0,0,0,1,0,0,0,1},
+						{1,2,0,0,0,0,1,0,0,0,1,0,0,0,0,1,3,0,0,1},
+						{1,2,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1},
+						{1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1},
+						{1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+						{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1},
+						{1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1},
+						{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1},
+						{1,3,0,0,0,0,1,1,0,1,1,1,1,1,0,0,0,0,2,1},
+						{1,3,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,2,1},
+						{1,0,0,0,0,0,1,3,0,0,0,0,0,1,2,0,0,0,0,1},
+						{1,0,3,0,3,0,1,3,0,3,3,0,0,1,2,0,0,2,2,1},
+						{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+					};
+		 if(map[startX][startY]==0)System.out.println("fgfgf");
+		 User user = LoginData.userLogined(request);
+		 if (null!=user){
+			 Game game =  DataHolder.getInstance().getGame(user);
+			 if(null!=game){
+				 GameMap map2 = game.getMap();
+				 finishX = finishXCoord/map2.getFrameWidth();
+				 finishY = finishYCoord/map2.getFrameHeight();
+				 WaveAlgorithm algorithm = new WaveAlgorithm(map, startY, startX, finishY, finishX);
+				 String str =  algorithm.Algorithm();
+				 System.out.println(str+"  "+finishX+"  "+finishY);
+				 if(str.equals("good")){
+					 List<Step> way = algorithm.getWay();
+					 System.out.println(way);
+				 }
+			 }
+		 }
+	}
+
+}

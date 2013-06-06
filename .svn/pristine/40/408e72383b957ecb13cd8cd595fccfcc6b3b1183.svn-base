@@ -1,0 +1,47 @@
+package com.epam.lab.developers.game.map.unit;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.epam.lab.developers.game.map.object.active.CoffeeMashine;
+
+public class MiddleDeveloper extends Unit {
+
+	
+	public static final int CODE_LINES_PER_TIME_SPAN = 30; // to correct
+
+	public MiddleDeveloper(int x, int y, int rotationAngle,
+			List<String> textures, String name) {
+		super(x, y, rotationAngle, textures,name);
+		// TODO Auto-generated constructor stub		
+		
+			tmp=new ArrayList<String>();
+			tmp.add(CoffeeMashine.class.toString());
+		availableMethods.put("coffeeBurst",tmp);
+	}
+	
+	
+	
+	
+	public void coffeeBurst() {
+		System.out.println("coffeeBurst");
+		unitStatus.codeMultiplier*=1.30;
+	}
+	
+	
+	
+	
+	@Override
+	public void action() {
+		
+		switch (task.getTask()){
+		case "coffeeBurst" :   this.coffeeBurst();
+		break;		
+		default : super.action();
+			}
+				
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

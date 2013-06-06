@@ -1,0 +1,75 @@
+package com.epam.lab.developers.game.map.object;
+
+public class GameMap {
+
+	private int width;
+	private int height;
+	private int frameWidth;
+	private int frameHeight;
+	private int widthInFrames;
+	private int heightInFrames;
+	private MapObject[][] mapObjects;
+	private int maxNumOfUsers=2;
+	
+	public int getMaxNumOfUsers() {
+		return maxNumOfUsers;
+	}
+
+	public void setMaxNumOfUsers(int maxNumOfUsers) {
+		this.maxNumOfUsers = maxNumOfUsers;
+	}
+
+	public GameMap() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public GameMap(int frameWidth, int frameHeight, int width,int height){
+		this.frameWidth = frameWidth;
+		this.frameHeight = frameHeight;
+		this.width = width;
+		this.height = height;
+		this.widthInFrames = this.width/this.frameWidth;
+		this.heightInFrames = this.height/this.frameHeight;
+		this.mapObjects = new MapObject[widthInFrames][heightInFrames];
+	}
+	
+	public void setMapObject(MapObject object, int frameX, int frameY){
+		mapObjects[frameX][frameY] = object;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+
+	public int getHeight() {
+		return height;
+	}
+
+
+	public int getFrameWidth() {
+		return frameWidth;
+	}
+
+
+	public int getFrameHeight() {
+		return frameHeight;
+	}
+
+
+	public MapObject[][] getMapObjects() {
+		return mapObjects;
+	}
+
+	public void setMapObjects(MapObject[][] mapObjects) {
+		this.mapObjects = mapObjects;
+	}
+
+	public int getWidthInFrames() {
+		return widthInFrames;
+	}
+
+	public int getHeightInFrames() {
+		return heightInFrames;
+	}
+}

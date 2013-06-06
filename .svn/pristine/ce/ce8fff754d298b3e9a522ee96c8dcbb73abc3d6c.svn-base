@@ -1,0 +1,116 @@
+package com.epam.lab.developers.game.map.unit;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class UnitStatus {
+
+
+	private double codeMultiplier;//множник для швидкості написання коду, напряму залежить від настрою ситості і життя
+	private double mood;		//настрій юніта, якщо ситість і здоровя нормальні
+	private double food; 	// ситість юніта, залежить від кількості випитої кави і спожитої їжі
+	private double health; 		//здоров'я, змінюється коли бються
+
+	public static final String CODE_MULTIPLIER = "CODE_MULTIPLIER";
+	public static final String MOOD = "MOOD";
+	public static final String FOOD= "FOOD";
+	public static final String HEALTH = "HEALTH";
+
+	private Map<String , UnitBuff> buffs=new HashMap<String , UnitBuff>(); 
+	
+	
+	
+	public UnitStatus() {
+		this.food = 50;
+		this.health = 50;
+		this.mood = 50;
+		this.codeMultiplier = 1.3;
+
+	}
+	
+	public void substractLife(){
+		
+		if(food!=0)
+			food--;
+		if(health!=0)
+			health--;
+		if(mood!=0)
+			mood--;
+		codeMultiplier=2+(food+health+mood)/100;
+		
+	}
+	
+	public UnitStatus(double codeMultiplie, double mood, double bellyful, double healt ) {
+		this.food = bellyful;
+		this.health= healt;
+		this.codeMultiplier= codeMultiplie;
+		this.mood = mood;
+	}
+	
+	
+	
+	public void addBuff(String name , UnitBuff buff){
+		
+		buffs.put(name, buff);
+		
+	}
+	
+	
+	public Map<String , UnitBuff> getBuffs(){
+		
+		for(String name: this.buffs.keySet())
+			checkTimeNoEnd(name);
+		return buffs;
+	}
+	
+	private void checkTimeNoEnd(String name){
+		Date time=new Date() ;
+		if (buffs.get(name).getStart().getTime()+buffs.get(name).getTimeToEnd()-time.getTime()<=0)
+			buffs.remove(name);
+	}
+
+
+	public UnitBuff getBuff(String name) {
+		
+		return buffs.get(name);
+		
+		
+	}
+
+	public double getCodeMultiplier() {
+		return codeMultiplier;
+	}
+
+	public void setCodeMultiplier(double codeMultiplier) {
+		this.codeMultiplier = codeMultiplier;
+	}
+
+	public double getMood() {
+		return mood;
+	}
+
+	public void setMood(double mood) {
+		this.mood = mood;
+	}
+
+	public double getFood() {
+		return food;
+	}
+
+	public void setFood(double food) {
+		this.food = food;
+	}
+
+	public double getHealth() {
+		return health;
+	}
+
+	public void setHealth(double health) {
+		this.health = health;
+	}
+
+	
+}

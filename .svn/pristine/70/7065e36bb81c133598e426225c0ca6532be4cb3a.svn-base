@@ -1,0 +1,33 @@
+package com.epam.lab.developers.game.map.object;
+
+public abstract class MapObject {
+
+	private int x;
+	private int y;
+	private int rotationAngle;
+	private String serverPath;
+	
+	public MapObject(int x,int y,int rotationAngle ,String path){
+		this.x =x;
+		this.y=y;
+		this.rotationAngle = rotationAngle;
+		this.serverPath = path;
+	}	
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public String getServerPath() {
+		return serverPath;
+	}
+
+	public int getRotationAngle() {
+		return rotationAngle;
+	} 
+	
+}

@@ -1,0 +1,166 @@
+package com.epam.lab.developers.game.map.unit;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.epam.lab.developers.game.Active;
+import com.epam.lab.developers.game.map.algorithm_way.Step;
+import com.epam.lab.developers.game.map.object.active.ActiveObject;
+import com.epam.lab.developers.game.map.object.active.CoffeeMashine;
+import com.epam.lab.developers.game.map.object.active.Notebook;
+import com.epam.lab.developers.game.map.object.active.Printer;
+import com.epam.lab.developers.game.map.object.active.Server;
+
+public abstract class Unit implements Active {
+	
+	protected int x;
+	protected int y;
+	protected int rotationAngle;
+//	protected float codeMultiplier=1;
+	protected List<String> textures = new ArrayList<>();	
+	protected String name;
+	protected transient Map<String,ArrayList<String>> availableMethods=new HashMap<String, ArrayList<String>>();
+	protected transient UnitTask task =new UnitTask("code");
+	protected transient UnitStatus unitStatus; 
+	protected ArrayList<String> tmp=new ArrayList<String>();
+	public Unit() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	public Unit(int x, int y, int rotationAngle,
+			  List<String> textures, String name) {
+		this.x = x;
+		this.y = y;
+		this.rotationAngle = rotationAngle;
+		this.textures = textures;
+		this.name = name;
+			ArrayList<String> tmp=new ArrayList<String>();
+			tmp.add("use");tmp.add("repair");tmp.add("breakDown");			
+		availableMethods.put(CoffeeMashine.class.toString() , tmp);
+		
+			tmp=new ArrayList<String>();
+			tmp.add("use");tmp.add("repair");tmp.add("breakDown");					
+		availableMethods.put(Printer.class.toString() , tmp);
+		
+			tmp=new ArrayList<String>();
+			tmp.add("use");tmp.add("repair");tmp.add("breakDown");
+		availableMethods.put(Server.class.toString() , tmp);
+			
+	}
+
+	
+	@Override
+	public void action() {
+//		availableMethods.put("", value)
+	if(task.getWay().size()>1)  this.move(task.getWay()); 
+	 	else		
+		switch (task.getTask()){		
+		case "code"		 :   this.code();
+			break;
+		case "use" 		 :   this.use();
+			break;
+		case "repair"	 :   this.repair();
+			break;
+		case "breakDown" :   this.breakDown();
+			break;
+		
+		default : System.err.println("unknown method");
+			}
+		 
+	}
+
+	
+
+	public UnitTask getTask() {
+		return task;
+	}
+
+
+
+	public void setTask(UnitTask task) {
+		this.task = task;
+	}
+
+
+
+	private void breakDown() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void repair() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void use() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void code() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+	public ArrayList<String> getAvailableMethods(String activeObject) {
+		return availableMethods.get(activeObject);
+	}
+
+	public void move(List<Step> way) {
+		
+		x=way.get(way.size()-1).getX()*way.get(0).getFrameWidth();
+		y=way.get(way.size()-1).getY()*way.get(0).getFrameWidth();
+				
+		
+		
+		System.out.println("move");
+	}
+
+	protected List<String> getTextures() {
+		return textures;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	protected void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+
+	protected void setY(int y) {
+		this.y = y;
+	}
+
+	protected int getRotationAngle() {
+		return rotationAngle;
+	}
+
+	protected void setRotationAngle(int rotationAngle) {
+		this.rotationAngle = rotationAngle;
+	}
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+}

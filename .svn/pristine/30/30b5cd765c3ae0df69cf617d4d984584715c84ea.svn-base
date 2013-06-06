@@ -1,0 +1,71 @@
+package com.epam.lab.developers.game.map.object.active;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.epam.lab.developers.game.Active;
+import com.epam.lab.developers.game.map.object.MapObject;
+import com.epam.lab.developers.game.map.unit.Unit;
+import com.epam.lab.developers.game.map.unit.UnitStatus;
+
+public abstract class ActiveObject extends MapObject implements	Active {
+	
+	float useMultiplayer;
+	
+	String state = "nonUsed";
+	
+	protected List<String> availableMethods=new ArrayList<>();
+
+	
+	
+
+	public ActiveObject(int x, int y, int rotationAngle, String path) {
+		super(x, y, rotationAngle, path);
+		// TODO Auto-generated constructor stub	
+		
+	
+		availableMethods.add("use");
+		availableMethods.add("repair");
+		availableMethods.add("breakDown");
+		
+	}
+
+	public void use(UnitStatus stat){
+		
+		switch (state){
+			
+			case "repair"		 :   this.repair();
+				break;
+			case "breakDown"		 :   this.breakDown();
+				break;
+			
+			default : System.err.println("unknown method");
+				}
+	}
+	
+	@Override
+	public void action() {
+		// TODO Auto-generated method stub
+//		if(task.getWay().size()>1)  this.move(task.getWay()); 
+//	 	else		
+		
+	}
+
+
+	private void breakDown() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void repair() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+}

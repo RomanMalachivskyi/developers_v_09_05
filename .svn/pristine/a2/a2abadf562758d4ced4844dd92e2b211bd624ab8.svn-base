@@ -1,0 +1,131 @@
+package com.epam.lab.developers.game;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
+
+import com.epam.lab.developers.entity.User;
+import com.epam.lab.developers.game.map.GameMap;
+import com.epam.lab.developers.game.map.algorithm_way.MapWrapper;
+
+public class Game {
+
+	public static final int CODE_LINES = 10000; // кількість стрічок коду, які
+												// потрібно набрати для виграшу
+												// ЗАБРАТИ НАФІГ
+	// рух гри відбувається кожні 20 мс
+	private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
+	private static final int TIME_PERIOD = 50;
+
+	private boolean isRunningGame = false;
+	private Date dateOfCreation;
+	// гра має назву, карту, гравців
+	private String name;
+	private GameMap map;
+	private int[][] mapBinary;
+	private User creator;
+	private List<Team> teams = new ArrayList<>();
+	private List<User> players = new ArrayList<>();
+
+	// в GameTask буде відбуватись справжній "рок-н-ролл", не в класі Game
+	// клас Game тільки для створення, запуску, завершення гри та тримання даних
+	private GameTask gameTask;
+	private Timer timer = new Timer();
+
+	public Game(String name, GameMap map, List<Team> teams, User creator) {
+		this.name = name;
+		this.map = map;
+		this.mapBinary = new MapWrapper(this.map).getMapForAlgorithm();
+		this.teams = teams;
+		this.creator = creator;
+		this.dateOfCreation = new Date();
+		addPlayerAndSetTeam(creator);		
+	}
+
+	// долучити гравця до гри і присвоїти йому першу вільну команду
+	public boolean addPlayerAndSetTeam(User user) {
+		if (players.size() < map.getPlayerCount()) {
+			players.add(user);
+			for (Team team : this.teams) {
+				boolean isFree = true;
+				for (User findedUser : this.players) {
+					if (team == findedUser.getTeam()) {
+						isFree = false;
+						break;
+					}
+				}
+				if (isFree) {
+					user.setTeam(team);
+					break;
+				}
+			}
+			// якщо кількість гравців максимальна - СТАРТ гри
+			if (map.getPlayerCount() == this.players.size()) {
+				start();
+			}
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	// запустити гру
+	public void start() {
+		isRunningGame = true;
+		gameTask = new GameTask(this);
+		timer.schedule(gameTask, 0, TIME_UNIT.toMillis(TIME_PERIOD));
+	}
+
+	// закінчити гру
+	public void finish() {
+		isRunningGame = false;
+		timer.cancel();
+	}
+
+
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public int[][] getMapBinary() {
+		return mapBinary;
+	}
+	
+	public GameMap getMap() {
+		return map;
+	}
+
+	public Date getDateOfCreation() {
+		return dateOfCreation;
+	}
+
+	public User getCreator() {
+		return creator;
+	}
+
+	public List<User> getPlayers() {
+		return players;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public GameTask getGameTask() {
+		return gameTask;
+	}
+
+	public void setRunningGame(boolean isRunningGame) {
+		this.isRunningGame = isRunningGame;
+	}
+
+	public boolean isRunningGame() {
+		return isRunningGame;
+	}
+
+}
