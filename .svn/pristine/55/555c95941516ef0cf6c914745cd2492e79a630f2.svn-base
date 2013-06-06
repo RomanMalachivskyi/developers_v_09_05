@@ -1,8 +1,0 @@
-package com.epam.lab.developers.game.map.unit;
-
-public class UnitStatus {
-
-	public float codeMultiplier=1;
-	public float mood;//настрій юніта
-
-}
